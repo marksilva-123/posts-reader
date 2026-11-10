@@ -13,5 +13,6 @@ export function usePost(id: Post["id"]) {
   return useQuery({
     queryKey: ["post", id],
     queryFn: () => getPost(id),
+    enabled: Number.isInteger(id) && id > 0,
   });
 }
