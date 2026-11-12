@@ -28,3 +28,7 @@ npm run build
 - TanStack Query hooks for cached post list and detail requests
 
 The `.env.example` file contains the public JSONPlaceholder API URL. Copy it to `.env` before starting the app; `.env` is ignored by Git.
+
+## Live Demo
+
+https://posts-reader-41mi2thrd-marksilva.vercel.app
