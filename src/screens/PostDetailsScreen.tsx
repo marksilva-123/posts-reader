@@ -1,6 +1,10 @@
+
 import { isAxiosError } from "axios";
 import { useParams } from "react-router";
+import Avatar from "@/components/avatar";
+import FormattedDate from "@/components/formatted-date";
 import { Skeleton } from "@/components/ui/skeleton";
+import CommentList from "@/features/comments/components/CommentList";
 import { usePost } from "@/features/posts/posts.hooks";
 import { readingColumnClassName, toParagraphs } from "@/lib/layout";
 
@@ -66,20 +70,33 @@ export default function PostDetailsScreen() {
   const paragraphs = toParagraphs(data.body ?? "");
 
   return (
-    <article className={readingColumnClassName}>
-      <header className="mb-8 space-y-4">
-        <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-          Post {data.id} <span aria-hidden="true">·</span> By user {data.userId}
-        </p>
-        <h1 className="font-reading text-4xl font-medium leading-tight tracking-[-0.035em] sm:text-5xl">
-          {data.title}
-        </h1>
-      </header>
-      <div className="space-y-6 font-reading text-lg leading-8 text-foreground/85">
-        {paragraphs.map((paragraph, index) => (
-          <p key={`${data.id}-${index}`}>{paragraph}</p>
-        ))}
-      </div>
-    </article>
+    <>
+      <article className={readingColumnClassName}>
+        <header className="mb-8 space-y-4">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            Post {data.id}
+          </p>
+          <h1 className="font-reading text-4xl font-medium leading-tight tracking-[-0.035em] sm:text-5xl">
+            {data.title}
+          </h1>
+        </header>
+
+        <div className="mb-8 flex flex-wrap items-center gap-4 border-t border-border pt-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-2">
+            <Avatar>{data.userId}</Avatar>
+            Author {data.userId}
+          </span>
+          <FormattedDate value={data.createdAt} />
+        </div>
+
+        <div className="space-y-6 font-reading text-lg leading-8 text-foreground/85">
+          {paragraphs.map((paragraph, index) => (
+            <p key={`${data.id}-${index}`}>{paragraph}</p>
+          ))}
+        </div>
+      </article>
+
+      <CommentList postId={data.id} />
+    </>
   );
 }
